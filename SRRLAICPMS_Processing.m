@@ -5,7 +5,7 @@ clc
 %% Import
 delimiterIn = ',';
 headerlinesIn = 1;
-Directory='D:\Uni\MIAK\wanagat via dave\OLD\20170313 resolution test\KK\csv\un quanted\15@15@0.125\';
+Directory='D:\';
 mkdir ([Directory], 'OutDirectory');
 OutDirectory=([Directory 'OutDirectory\']);
 mkdir ([Directory], 'SliceDirectory');
@@ -45,8 +45,8 @@ wa=size(dataH.data,2);
 lb1=size(dataV.data,1);
 wb=size(dataV.data,2);
 j=round(((1.2/Scantime)*10));%removed from top (M*laser warmup time or just speed times 10s)DONT FORGET BEGINNING IS ALWAYS LONGER normally about 12*M
-k=round((la1-(wa*M))-j);%removed from bottom (M times the lines of the other matrix - large number) leftright (wa for dystro but wb otherwise)
-l=round((lb1-(wb*M))-j);%removed from bottom (M times the lines of the other matrix - large number) updown (wb for dystro but wa otherwise)
+k=round((la1-(wa*M))-j);%removed from bottom (M times the lines of the other matrix - large number) leftright
+l=round((lb1-(wb*M))-j);%removed from bottom (M times the lines of the other matrix - large number) updown 
 A1=dataH.data;
 A1(la1-l+1:la1, :) = []; %remove k rows from the bottom
 A1(1:j, :) = []; %remove j rows from the top
@@ -274,11 +274,11 @@ dlmwrite([OutDirectory 'SRRConventional.csv'],FirstLayer);
 InterpBin=InterpBig3D;
 
 [x y z]=size(InterpBin);
-filename='3DSRR.vtk'; %DONT FORGET TO CHANGE FILE LOCATIONS
+filename='3DSRR.vtk'; 
 total=numel(InterpBig3D);
 z=size(InterpBig3D,3); %layer of ablation
 fp=fopen(sprintf('%s',filename),'w'); 
-fp=fopen([OutDirectory '3DSRR.vtk'],'w'); %DONT FORGET TO CHANGE FILE LOCATIONS
+fp=fopen([OutDirectory '3DSRR.vtk'],'w');
 fprintf(fp,sprintf('# vtk DataFile Version 2.0\n%s\nASCII\nDATASET STRUCTURED_POINTS\nDIMENSIONS %d %d %d\nORIGIN 0.0 0.0 0.0\nSPACING 1.0 1.0 5.0\n \nPOINT_DATA %d\nSCALARS values double\nLOOKUP_TABLE default\n',filename,x,y,z,total)');
 for z1=1:z;
 for y1=1:y;
